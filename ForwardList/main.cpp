@@ -8,7 +8,7 @@ using std::endl;
 #define delimeter "\n|--------------------------------------------------|\n"
 class Element
 {
-
+protected:
 	int Data;		//Значение элемента
 	Element* pNext;	//Указатель на следующий элемент
 	static int count;
@@ -27,20 +27,67 @@ public:
 		//cout << "EDestructor:\t" << this << endl;
 	}
 	friend class ForwardList;
+	friend class Iterator;
 };
 
-int Element::count;
+int Element::count = 0;
+
+class Iterator
+{
+	Element* Temp;
+public:
+	Iterator(Element* Temp = nullptr) :Temp(Temp)
+	{
+		cout << "ItConstructor:\t" << this << endl;
+	}
+	~Iterator()
+	{
+		cout << "ItDestructor:\t" << this << endl;
+	}
+	//		Operators:
+	Iterator& operator++()
+	{
+		Temp = Temp->pNext;
+		return *this;
+	}
+	bool operator!=(const Iterator& other)const
+	{
+		return this->Temp != other.Temp;
+	}
+
+	int operator*()
+	{
+		return Temp->Data;
+	}
+};
 
 class ForwardList
 {
 	Element* Head;
 	unsigned int size;
 public:
+	Iterator begin()
+	{
+		return Head;
+	}
+	Iterator end()
+	{
+		return nullptr;
+	}
+	//		Constructor:
 	ForwardList()
 	{
 		Head = nullptr;
 		size = 0;
 		cout << "LConstructor:\t" << this << endl;
+	}
+	ForwardList(const std::initializer_list<int>& il):ForwardList()
+	{
+		cout << typeid(il.begin()).name() << endl;;
+		for (int const* it = il.begin(); it != il.end(); it++)
+		{
+			push_back(*it);
+		}
 	}
 	ForwardList(const ForwardList& other):ForwardList()
 	{
@@ -71,13 +118,17 @@ public:
 		{
 			pop_front();
 		}
-		for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)push_back(Temp->Data);
+		for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)push_front(Temp->Data);
+		revrese();
+			//push_back(Temp->Data);
 		cout << "LCopyAssigment: " << this << endl;
 		return *this;
 	}
 	ForwardList& operator=(ForwardList&& other)
 	{
 		if (this == &other)return *this;
+		delete[] this->Head;
+		while (Head)pop_front();
 		this->Head = other.Head;
 		this->size = other.size;
 
@@ -174,10 +225,23 @@ public:
 		size--;
 	}
 	//		Methods:
+	void revrese()
+	{
+		ForwardList buffer;
+		while (Head)
+		{
+			buffer.push_front(Head->Data);
+			pop_front();
+		}
+		this->Head = buffer.Head;
+		this->size = buffer.size;
+		buffer.Head = nullptr;
+		
+	}
 	void print()const
 	{
 		cout << tab << "Head:\t" << Head << endl;
-		/*Element* Temp = Head;	//Temp- это итератор.
+		/*Element* Temp = Head;	//Temp - это итератор.
 		//Итератор - это указатель, при помощи которого можно перебирать элементы стрктуры данных
 		while (Temp)
 		{
@@ -194,7 +258,8 @@ public:
 
 //#define BASE_CHECK
 //#define COUNT_CHECK
-
+//#define PERFORMANCE_CHECK
+//#define RANGE_BASED_FOR_ARRAY
 
 void main()
 {
@@ -246,6 +311,9 @@ void main()
 	list2.push_back(89);
 	list2.print();
 #endif // COUNT_CHECK
+
+#ifdef PERFORMANCE_CHECK
+
 	cout << "Введите количество элементов: "; cin >> n;
 	ForwardList list;
 	for (int i = 0; i < n; i++)
@@ -255,14 +323,42 @@ void main()
 		//list.push_back(rand() % 100);
 	}
 	cout << "List filled" << endl;
-	list.print();
+	//list.print();
 
-	ForwardList list2;
-	list2 = (std::move(list));
+
+	cout << "Making copy" << endl;
+	ForwardList list2 = list;
 	//ForwardList list2;
-	//list2 = list;
 	//list2.print();
-	//ForwardList list3;
-	//ForwardList list4 = list3;
-	
+	cout << "Copy DONE" << endl;
+#endif // PERFORMANCE_CHECK
+
+#ifdef RANGE_BASED_FOR_ARRAY
+	int arr[] = { 3, 5 ,8, 13, 21 };
+	for (int i = 0; i < sizeof(arr) / sizeof(arr[0]); i++)
+	{
+		cout << *(arr + i) << tab;
+	}
+	cout << endl;
+
+	//Range-based for
+	//Range (диапозон) в данном контексте понимается как контейнер.
+	for (int i : arr)
+	{
+		cout << i << tab;
+	}
+	cout << endl;
+	for (int i = 0; i < arr[i]; i++)
+	{
+		cout << *(arr + i) << tab;
+	}
+#endif // RANGE_BASED_FOR_ARRAY
+
+	ForwardList list = { 3, 5 ,8 , 13, 21 };
+	//list.print();
+	for (int i : list)
+	{
+		cout << i << tab;
+	}
+	cout << endl;
 }
