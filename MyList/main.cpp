@@ -1,4 +1,4 @@
-#include<iostream>
+ï»¿#include<iostream>
 
 using std::cout;
 using std::cin;
@@ -92,7 +92,7 @@ void main()
 	setlocale(LC_ALL, "");
 	NodeList list;
 	int n;
-	cout << "Ââåäèòå ÷èñëî äîáàâëÿåìûõ çíà÷åíèé:\t"; cin >> n;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ‡Ð¸ÑÐ»Ð¾ Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼Ñ‹Ñ… Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ð¹:\t"; cin >> n;
 	for (int i = 0; i < n; i++)
 	{
 		list.push_front(rand() % 100);
