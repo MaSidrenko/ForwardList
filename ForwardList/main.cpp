@@ -16,15 +16,13 @@ public:
 	Element(int Data, Element* pNext = nullptr) :Data(Data), pNext(pNext)
 	{
 		count++;
-#ifdef DEBUG
-		cout << "EConstractor:\t" << this << endl;
-#endif // DEBUG
 
+		cout << "EConstractor:\t" << this << endl;
 	}
 	~Element()
 	{
 		count--;
-		//cout << "EDestructor:\t" << this << endl;
+		cout << "EDestructor:\t" << this << endl;
 	}
 	friend class ForwardList;
 	friend class Iterator;
@@ -256,7 +254,7 @@ public:
 	}
 };
 
-//#define BASE_CHECK
+#define BASE_CHECK
 //#define COUNT_CHECK
 //#define PERFORMANCE_CHECK
 //#define RANGE_BASED_FOR_ARRAY
@@ -272,7 +270,8 @@ void main()
 	ForwardList list;
 	for (int i = 0; i < n; i++)
 	{
-		//list.push_front(rand() % 100);
+		list.push_front(rand() % 100);
+		cout << delimeter << endl;
 		list.push_back(rand() % 100);
 	}
 	list.print();
@@ -354,11 +353,11 @@ void main()
 	}
 #endif // RANGE_BASED_FOR_ARRAY
 
-	ForwardList list = { 3, 5 ,8 , 13, 21 };
-	//list.print();
-	for (int i : list)
-	{
-		cout << i << tab;
-	}
-	cout << endl;
+	//ForwardList list = { 3, 5 ,8 , 13, 21 };
+	////list.print();
+	//for (int i : list)
+	//{
+	//	cout << i << tab;
+	//}
+	//cout << endl;
 }
