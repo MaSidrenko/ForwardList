@@ -44,16 +44,21 @@ public:
 	//		Adding Elements:
 	void push_front(int Data)
 	{
-		Element* New = new Element(Data);
-		New->pPrev = nullptr;
-		New->pNext = Head;
-		Head = New;
+		if(Head == nullptr && Tail == nullptr)
+		{
+		
+		}
+		else {
+			Element* New = new Element(Data);
+			New->pNext = Head;
+			Head->pPrev = New;
+			Head = New;
+		}
 	}
 	void push_back(int Data)
 	{
 		Element* New = new Element(Data);
 		New->pNext = nullptr;
-		New->pPrev = Tail;
 		Tail = New;
 	}
 	//		Removing elements:
@@ -74,6 +79,7 @@ public:
 			{
 				cout << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
 			}
+			cout << endl;
 		}
 		if (Tail) 
 		{
@@ -81,6 +87,7 @@ public:
 			{
 				cout << Temp << tab << Temp->Data << tab << Temp->pPrev << endl;
 			}
+			cout << endl;
 		}
 	}
 
