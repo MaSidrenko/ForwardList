@@ -207,22 +207,23 @@ public:
 	}
 	void insert(int Data, int Index)
 	{
-		Element* Temp;
+		Element* Temp = nullptr;
 		if (Index < size / 2) 
 		{
-			Element* Temp = Head;
+			Temp = Head;
 			for (int i = 0; i < Index; i++)Temp = Temp->pNext;
 		}
 		else
 		{
-			Element* Temp = Tail;
+			Temp = Tail;
 			for (int i = Index; i < size - 1; i++)Temp = Temp->pPrev;
 		}
 		Element* New = new Element(Data);
-		Temp->pPrev = New;
-		New = Temp->pNext;
+		New->pNext= Temp;
+		New->pPrev = Temp->pPrev;
 		Temp->pPrev->pNext = New;
-		Temp->pNext = New;
+		Temp->pPrev = New;
+		size++;
 	}
 	//			Removing Elements:
 	void pop_front()
@@ -254,6 +255,23 @@ public:
 			delete Tail->pNext;
 			Tail->pNext = nullptr;
 		}
+		size--;
+	}
+	void erase(int Index)
+	{
+		Element* Temp;
+		if (Index < size / 2)
+		{
+			Temp = Head;
+			for (int i = 0; i < Index; i++)Temp = Temp->pNext;
+		}else
+		{
+			Temp = Tail;
+			for (int i = Index; i < size - 1; i++)Temp = Temp->pPrev;
+		}
+		Temp->pPrev->pNext = Temp->pNext;
+		Temp->pNext->pPrev = Temp->pPrev;
+		delete Temp;
 		size--;
 	}
 	//			Methods:
@@ -294,7 +312,7 @@ List operator+(const List& left, const List& right)
 	return buffer;
 }
 
-//#define BASE_CHECK
+#define BASE_CHECK
 //#define ITERATOR_CHECK
 
 void main()
@@ -322,8 +340,14 @@ void main()
 	list.reverse_print();
 	int index;
 	int Data;
-	cout << "¬ведите индекс:\t";	
+	cout << "¬ведите индекс:\t"; cin >> index;
+	cout << "¬ведите добавл€емое значение:\t "; cin >> Data;
 	list.insert(Data, index);
+	list.print();
+	list.reverse_print();
+	list.erase(index);
+	list.print();
+	list.reverse_print();
 #endif // BASE_CHECK
 
 #ifdef ITERATOR_CHECK
@@ -338,12 +362,12 @@ void main()
 	cout << endl;
 #endif // ITERATOR_CHECK
 
-	List list1 = { 3, 5, 8, 13, 21 };
-	List list2 = {34, 55, 89};
-	List list3 = list1 + list2;
+	//List list1 = { 3, 5, 8, 13, 21 };
+	//List list2 = {34, 55, 89};
+	//List list3 = list1 + list2;
 	//list3.print();
 	//list3.reverse_print();
-	for (int i : list1)cout << i << tab; cout << endl;
-	for (int i : list2)cout << i << tab; cout << endl;
-	for (int i : list3)cout << i << tab; cout << endl;
+	//for (int i : list1)cout << i << tab; cout << endl;
+	//for (int i : list2)cout << i << tab; cout << endl;
+	//for (int i : list3)cout << i << tab; cout << endl;
 }
