@@ -184,10 +184,10 @@ public:
 			Head = Tail = new Element(Data);	
 		}else
 		{
-			Element* New = new Element(Data);
-			New->pNext = Head;
-			Head->pPrev = New;
-			Head = New;
+			Head = Head->pPrev = new Element(Data, Head);
+			//New->pNext = Head;
+			//Head->pPrev = New;
+			//Head = New;
 		}
 		size++;
 	}
@@ -198,10 +198,10 @@ public:
 			Head = Tail = new Element(Data);
 		}else
 		{
-			Element* New = new Element(Data);
-			New->pPrev = Tail;
-			Tail->pNext = New;
-			Tail = New;
+			Tail = Tail->pNext = new Element(Data,nullptr ,Tail);
+			//New->pPrev = Tail;
+			////Tail->pNext = New;
+			//Tail = New;
 		}
 		size++;
 	}
@@ -218,11 +218,11 @@ public:
 			Temp = Tail;
 			for (int i = Index; i < size - 1; i++)Temp = Temp->pPrev;
 		}
-		Element* New = new Element(Data);
-		New->pNext= Temp;
-		New->pPrev = Temp->pPrev;
-		Temp->pPrev->pNext = New;
-		Temp->pPrev = New;
+		Temp->pPrev = Temp->pPrev->pNext = new Element(Data, Temp, Temp->pPrev);
+		//New->pNext= Temp;
+		//New->pPrev = Temp->pPrev;
+		//Temp->pPrev->pNext = New;
+		//Temp->pPrev = New;
 		size++;
 	}
 	//			Removing Elements:
@@ -324,8 +324,8 @@ void main()
 	List list;
 	for (int i = 0; i < n; i++)
 	{
-		list.push_front(rand() % 100);
-		//list.push_back(rand() % 100);
+		//list.push_front(rand() % 100);
+		list.push_back(rand() % 100);
 	}
 
 	list.print();
