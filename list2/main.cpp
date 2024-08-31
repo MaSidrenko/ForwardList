@@ -47,10 +47,7 @@ class List
 		{
 			return Temp->Data;
 		}
-		//int& operator*()
-		//{
-		//	return Temp->Data;
-		//}
+	
 	};
 public:
 	class Const_Iterator: public Const_BaseIterator
@@ -123,7 +120,31 @@ public:
 			return old;
 		}
 	};
+	class Iterator : public Const_Iterator
+	{
+	public:
+		Iterator(Element* Temp = nullptr):Const_Iterator(Temp){}
+		~Iterator() {}
+	int& operator*()
+	{
+		return Temp->Data;
+	}
+	};	
+	class Reverse_Iterator : public Const_ReverseIterator
+	{
+	public:
+		Reverse_Iterator(Element* Temp = nullptr):Const_ReverseIterator(Temp){}
+		~Reverse_Iterator() {}
+	int& operator*()
+	{
+		return Temp->Data;
+	}
+	};
 	Const_Iterator begin()const
+	{
+		return Head;
+	}
+	Iterator begin()
 	{
 		return Head;
 	}
@@ -131,11 +152,23 @@ public:
 	{
 		return nullptr;
 	}
-	Const_ReverseIterator r_begin()
+	Iterator end()
+	{
+		return nullptr;
+	}
+	Const_ReverseIterator r_begin()const
 	{
 		return Tail;
 	}
-	Const_ReverseIterator r_end()
+	Const_ReverseIterator r_end()const
+	{
+		return nullptr;
+	}
+	Reverse_Iterator r_begin()
+	{
+		return Tail;
+	}
+	Reverse_Iterator r_end()
 	{
 		return nullptr;
 	}
@@ -207,6 +240,10 @@ public:
 	}
 	void insert(int Data, int Index)
 	{
+		if (Head == nullptr && Tail == nullptr)
+		{
+			push_front(Data);
+		}
 		Element* Temp = nullptr;
 		if (Index < size / 2) 
 		{
@@ -259,6 +296,11 @@ public:
 	}
 	void erase(int Index)
 	{
+		if (Head == nullptr && Tail == nullptr)return;
+		if (Head == Tail)
+		{
+			pop_front();
+		}
 		Element* Temp;
 		if (Index < size / 2)
 		{
@@ -311,8 +353,15 @@ List operator+(const List& left, const List& right)
 	}
 	return buffer;
 }
+void Grow(List& list)
+{
+	for (List::Iterator it = list.begin(); it != list.end(); ++it)
+	{
+		*it *= 10;
+	}
+}
 
-#define BASE_CHECK
+//#define BASE_CHECK
 //#define ITERATOR_CHECK
 
 void main()
@@ -362,12 +411,14 @@ void main()
 	cout << endl;
 #endif // ITERATOR_CHECK
 
-	//List list1 = { 3, 5, 8, 13, 21 };
-	//List list2 = {34, 55, 89};
-	//List list3 = list1 + list2;
-	//list3.print();
-	//list3.reverse_print();
-	//for (int i : list1)cout << i << tab; cout << endl;
-	//for (int i : list2)cout << i << tab; cout << endl;
-	//for (int i : list3)cout << i << tab; cout << endl;
+	List list1 = { 3, 5, 8, 13, 21 };
+	List list2 = {34, 55, 89};
+	List list3 = list1 + list2;
+	list3.print();
+	list3.reverse_print();
+	for (int i : list1)cout << i << tab; cout << endl;
+	for (int i : list2)cout << i << tab; cout << endl;
+	for (int i : list3)cout << i << tab; cout << endl; cout << delimeter;
+	Grow(list3);
+	for (int i : list3)cout << i << tab; cout << endl; cout << delimeter;
 }
