@@ -1,4 +1,4 @@
-#include"List2.cpp"
+#include"List.cpp"
 
 //#define BASE_CHECK
 //#define ITERATOR_CHECK
@@ -87,7 +87,7 @@ void main()
 	list_c3.reverse_print();
 	for (std::string i : list_c1)cout << i << tab; cout << endl;
 	for (std::string i : list_c2)cout << i << tab; cout << endl; cout << delimeter;
-	for (std::string i : list_c3)cout << i << tab; cout << endl; cout << delimeter;
+	for (std::string i : list_c3)cout << i; cout << endl; cout << delimeter;
 #endif // STRING_CHECK
 
 }

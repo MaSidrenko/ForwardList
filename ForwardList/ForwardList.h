@@ -7,6 +7,7 @@ using std::endl;
 
 #define tab "\t"
 #define delimeter "\n|--------------------------------------------------|\n"
+
 template<typename T>class List
 {
 	class Element

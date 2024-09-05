@@ -35,7 +35,6 @@ template<typename T>class List
 		bool operator!=(const Const_BaseIterator& other)const;
 		//			Dereference operators:
 		const T& operator*()const;
-
 	};
 public:
 	class Const_Iterator : public Const_BaseIterator
