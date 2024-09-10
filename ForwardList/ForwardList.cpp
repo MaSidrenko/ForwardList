@@ -4,12 +4,12 @@ template<typename T>List<T>::Element::Element(T Data, Element *pNext) :Data(Data
 {
 	count++;
 
-	cout << "EConstractor:\t" << this << endl;
+	//cout << "EConstractor:\t" << this << endl;
 }
 template<typename T>List<T>::Element::~Element()
 {
 	count--;
-	cout << "EDestructor:\t" << this << endl;
+	//cout << "EDestructor:\t" << this << endl;
 }
 template<typename T>typename List<T>::Iterator::Iterator& List<T>::Iterator::operator++()
 {
@@ -38,7 +38,7 @@ template<typename T>List<T>::List()
 {
 	Head = nullptr;
 	size = 0;
-	cout << "LConstructor:\t" << this << endl;
+	//cout << "LConstructor:\t" << this << endl;
 }
 template<typename T>List<T>::List(const std::initializer_list<T>& il) :List()
 {
@@ -52,13 +52,13 @@ template<typename T>List<T>::List(const List& other) :List()
 {
 	//for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)push_back(Temp->Data);
 	*this = other;
-	cout << "LCopyConstrator: " << this << endl;
+	//cout << "LCopyConstrator: " << this << endl;
 }
 template<typename T>List<T>::List(List&& other)noexcept :Head(Head), size(size)
 {
 	other.Head = nullptr;
 	other.size = 0;
-	cout << "LMoveConstrator: " << this << endl;
+	//cout << "LMoveConstrator: " << this << endl;
 }
 template<typename T>List<T>::~List()
 {
@@ -67,7 +67,7 @@ template<typename T>List<T>::~List()
 		pop_front();
 	}
 	pop_front();
-	cout << "LDestructor:\t" << this << endl;
+	//cout << "LDestructor:\t" << this << endl;
 }
 //		Operators:
 template<typename T>typename List<T>::List& List<T>::operator=(const List& other)
@@ -80,7 +80,7 @@ template<typename T>typename List<T>::List& List<T>::operator=(const List& other
 	for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)push_front(Temp->Data);
 	revrese();
 	//push_back(Temp->Data);
-	cout << "LCopyAssigment: " << this << endl;
+	//cout << "LCopyAssigment: " << this << endl;
 	return *this;
 }
 template<typename T>typename List<T>::List& List<T>::operator=(List&& other)
@@ -93,7 +93,7 @@ template<typename T>typename List<T>::List& List<T>::operator=(List&& other)
 
 	other.Head = nullptr;
 	other.size = 0;
-	cout << "LMoveAssigment: " << this << endl;
+	//cout << "LMoveAssigment: " << this << endl;
 	return *this;
 }
 //		Adding elements:

@@ -10,6 +10,7 @@ using std::endl;
 
 template<typename T>class List
 {
+protected:
 	class Element
 	{
 	protected:
@@ -21,6 +22,7 @@ template<typename T>class List
 		~Element();
 		friend class Iterator;
 		friend class List;
+		friend class Stack;
 	};
 	class Iterator
 	{
@@ -39,7 +41,6 @@ template<typename T>class List
 		bool operator!=(const Iterator& other)const;
 		T operator*();
 	};
-
 	Element* Head;
 	unsigned int size;
 public:
@@ -67,3 +68,5 @@ public:
 	void revrese();
 	void print()const;
 };
+
+

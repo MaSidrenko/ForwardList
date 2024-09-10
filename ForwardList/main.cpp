@@ -1,10 +1,60 @@
-﻿//#include"ForwardList.h"
-#include"ForwardList.cpp"
+﻿#include"ForwardList.cpp"
 template<typename T>int List<T>::Element::count = 0;
 //#define BASE_CHECK
 //#define COUNT_CHECK
 //#define PERFORMANCE_CHECK
 //#define RANGE_BASED_FOR_ARRAY
+//#define TEMPLATE_CHECK
+
+class Stack : public List<int>
+{
+public:
+	Stack(): List() {}
+	~Stack() {}
+
+	bool empty()
+	{
+		if (size == 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	int stack_size()
+	{
+		return size;
+		//cout << size;
+	}
+	int top_stack()
+	{
+		List::Element* Temp = Head;
+		while (Temp->pNext)
+		{
+			Temp = Temp->pNext;
+		}
+		return Temp->Data;
+	}
+	void push(int Data)
+	{
+		push_back(Data);
+	}
+	void pop()
+	{
+		pop_back();
+	}
+	void emplace(int Data)
+	{
+		push_front(Data);
+	}
+	void swap(Stack obj)
+	{
+		*this = obj;
+	}
+};
+
 
 
 
@@ -101,11 +151,41 @@ void main()
 	}
 #endif // RANGE_BASED_FOR_ARRAY
 
-	List<std::string> list = { "Vasya", "Petkin"};
+#ifdef TEMPLATE_CHECK
+	List<std::string> list = { "Vasya", "Petkin" };
 	list.print();
 	for (std::string i : list)
 	{
 		cout << i << tab;
 	}
 	cout << endl;
+#endif // TEMPLATE_CHECK
+
+
+	cout << "Введите количество добавлемых элементов: "; cin >> n;
+	Stack mystack;
+	Stack mystack2;
+	for (int i = 0; i < n; i++)
+	{
+		mystack.push(rand() % 100);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		mystack2.push(rand() % 50);
+	}
+	cout << "Size my stack: " << mystack.stack_size();
+	cout << endl;
+	mystack.swap(mystack2);
+	cout << "Size my stack: " << mystack.stack_size() << endl;
+	while (!mystack.empty())
+	{
+		cout << mystack.top_stack() << endl;
+		mystack.pop();
+	}
+	while (!mystack2.empty())
+	{
+		cout << mystack2.top_stack() << endl;
+		mystack2.pop();
+	}
+
 }
