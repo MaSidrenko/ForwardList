@@ -17,15 +17,16 @@ public:
 	{
 		count++;
 
-		cout << "EConstractor:\t" << this << endl;
+		//cout << "EConstractor:\t" << this << endl;
 	}
 	~Element()
 	{
 		count--;
-		cout << "EDestructor:\t" << this << endl;
+		//cout << "EDestructor:\t" << this << endl;
 	}
 	friend class ForwardList;
 	friend class Iterator;
+	friend class Stack;
 };
 
 int Element::count = 0;
@@ -36,11 +37,11 @@ class Iterator
 public:
 	Iterator(Element* Temp = nullptr) :Temp(Temp)
 	{
-		cout << "ItConstructor:\t" << this << endl;
+		//cout << "ItConstructor:\t" << this << endl;
 	}
 	~Iterator()
 	{
-		cout << "ItDestructor:\t" << this << endl;
+		//cout << "ItDestructor:\t" << this << endl;
 	}
 	//		Operators:
 	Iterator& operator++()
@@ -61,6 +62,7 @@ public:
 
 class ForwardList
 {
+protected:
 	Element* Head;
 	unsigned int size;
 public:
@@ -77,7 +79,7 @@ public:
 	{
 		Head = nullptr;
 		size = 0;
-		cout << "LConstructor:\t" << this << endl;
+		//cout << "LConstructor:\t" << this << endl;
 	}
 	ForwardList(const std::initializer_list<int>& il):ForwardList()
 	{
@@ -91,13 +93,13 @@ public:
 	{
 		//for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)push_back(Temp->Data);
 		*this = other;
-		cout << "LCopyConstrator: " << this << endl;
+		//cout << "LCopyConstrator: " << this << endl;
 	}
 	ForwardList(ForwardList&& other)noexcept :Head(Head), size(size)
 	{
 		other.Head = nullptr;
 		other.size = 0;
-		cout << "LMoveConstrator: " << this << endl;
+		//cout << "LMoveConstrator: " << this << endl;
 	}
 	~ForwardList()
 	{
@@ -106,7 +108,7 @@ public:
 			pop_front();
 		}
 		pop_front();
-		cout << "LDestructor:\t" << this << endl;
+		//cout << "LDestructor:\t" << this << endl;
 	}
 	//		Operators:
 	ForwardList& operator=(const ForwardList& other)
@@ -119,7 +121,7 @@ public:
 		for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)push_front(Temp->Data);
 		revrese();
 			//push_back(Temp->Data);
-		cout << "LCopyAssigment: " << this << endl;
+		//cout << "LCopyAssigment: " << this << endl;
 		return *this;
 	}
 	ForwardList& operator=(ForwardList&& other)
@@ -132,7 +134,7 @@ public:
 
 		other.Head = nullptr;
 		other.size = 0;
-		cout << "LMoveAssigment: " << this << endl;
+		//cout << "LMoveAssigment: " << this << endl;
 		return *this;
 	}
 	//		Adding elements:
@@ -254,10 +256,61 @@ public:
 	}
 };
 
+class Stack :ForwardList
+{
+public:
+	const int& top()const
+	{
+		return Head->Data;
+	}
+	int& top()
+	{
+		return Head->Data;
+	}
+	int push(int Data)
+	{
+		push_front(Data);
+		return Head->Data;
+	}
+	int pop()
+	{
+		int Data = Head->Data;
+		pop_front();
+		return Data;
+	}
+	int size()const
+	{
+		return ForwardList::size;
+	}
+	bool empty()const
+	{
+		return Head == nullptr;
+	}
+	void swap(Stack& other)
+	{
+		Element* buffer_head = this->Head;
+		this->Head = other.Head;
+		other.Head = buffer_head;
+		int buffer_size = this->ForwardList::size;
+		this->ForwardList::size = other.ForwardList::size;
+		other.ForwardList::size = buffer_size;
+	}
+	void info()const
+	{
+		cout << delimeter << endl;
+		cout << this << ":\n";
+		cout << "Size: " << size() << endl;
+		for (int i : ForwardList(*this))cout << i << tab; cout << endl;
+		cout << delimeter << endl;
+	}
+	
+};
+
 //#define BASE_CHECK
 //#define COUNT_CHECK
 //#define PERFORMANCE_CHECK
 //#define RANGE_BASED_FOR_ARRAY
+//#define RANGE_BASED_FOR_LIST
 
 void main()
 {
@@ -353,11 +406,34 @@ void main()
 	}
 #endif // RANGE_BASED_FOR_ARRAY
 
-	//ForwardList list = { 3, 5 ,8 , 13, 21 };
-	////list.print();
-	//for (int i : list)
-	//{
-	//	cout << i << tab;
-	//}
-	//cout << endl;
+#ifdef RANGE_BASED_FOR_LIST
+	ForwardList list = { 3, 5 ,8 , 13, 21 };
+	list.print();
+	for (int i : list)
+	{
+		cout << i << tab;
+	}
+	cout << endl;
+#endif // RANGE_BASED_FOR_LIST
+
+	Stack stack;
+	Stack stack2;
+	stack.push(3);
+	stack.push(5);
+	stack.push(8);
+	stack.push(13);
+	stack.push(21);
+	stack2.push(34);
+	stack2.push(55);
+	stack2.push(89);
+	//cout << stack.size() << endl;
+	stack.info();
+	stack2.info();
+	/*while (!stack.empty())
+	{
+		cout << stack.pop() << tab;
+	}*/
+	stack.swap(stack2);
+	stack.info();
+	stack2.info();
 }
