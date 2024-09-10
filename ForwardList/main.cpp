@@ -6,7 +6,7 @@ template<typename T>int List<T>::Element::count = 0;
 //#define RANGE_BASED_FOR_ARRAY
 //#define TEMPLATE_CHECK
 
-class Stack : public List<int>
+class Stack : List<int>
 {
 public:
 	Stack(): List() {}
@@ -26,7 +26,6 @@ public:
 	int stack_size()
 	{
 		return size;
-		//cout << size;
 	}
 	int top_stack()
 	{
