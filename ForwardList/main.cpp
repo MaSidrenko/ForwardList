@@ -254,7 +254,7 @@ public:
 	}
 };
 
-#define BASE_CHECK
+//#define BASE_CHECK
 //#define COUNT_CHECK
 //#define PERFORMANCE_CHECK
 //#define RANGE_BASED_FOR_ARRAY
